@@ -33,38 +33,38 @@ PRODUCT_NAME=@PRODUCT_NAME@
 
 SOURCES= \
 	$(wildcard src/plugin/*.c) \
-	$(wildcard src/plugin/windows/*.rc)
+	$(wildcard src/plugin/linux/*.rc)
 
 #---[ Tools ]----------------------------------------------------------------------------
 
 CC=gcc
 LD=gcc
-LN_S=cp -pR
+LN_S=ln -s
 MKDIR=/usr/bin/mkdir -p
 INSTALL=/usr/bin/install -c
 INSTALL_DATA=${INSTALL} -m 644
 INSTALL_PROGRAM=${INSTALL}
-XGETTEXT=/mingw64/bin/xgettext
-MSGCAT=/mingw64/bin/msgcat
-WINDRES=/mingw64/bin/windres
-AR=/mingw64/bin/ar
+XGETTEXT=/usr/bin/xgettext
+MSGCAT=/usr/bin/msgcat
+WINDRES=no
+AR=/usr/bin/ar
 VALGRIND=@VALGRIND@
 STRIP=
 
 #---[ Paths ]----------------------------------------------------------------------------
 
-prefix=/mingw64
+prefix=/usr/local
 exec_prefix=${prefix}
 bindir=${exec_prefix}/bin
 sbindir=${exec_prefix}/sbin
-libdir=${exec_prefix}/lib
+libdir=${exec_prefix}/lib64
 includedir=${prefix}/include
 datarootdir=${prefix}/share
 localedir=${datarootdir}/locale
 docdir=${datarootdir}/doc/${PACKAGE_TARNAME}
 sysconfdir=${prefix}/etc
 
-BASEDIR=/home/Gustavo/plugins_pw3270/smartcardautentication
+BASEDIR=/home/perry/project/pw3270/smartcardplugin
 
 OBJDIR=$(BASEDIR)/.obj
 OBJDBG=$(OBJDIR)/Debug
@@ -80,18 +80,18 @@ LDFLAGS= \
 	 -pthread
 
 CFLAGS= \
-	-g -O2 -pthread -D_WIN32_WINNT=0x0600 -fPIC \
+	-g -O2 -pthread -fPIC \
 	-DBUILD_DATE=`date +%Y%m%d` \
 	-DLOCALEDIR=$(localedir) \
-	-DLIB3270_NAME=3270 -DLIB3270_REVISION=20211108 -IC:/msys64/mingw64/include/gtk-3.0 -IC:/msys64/mingw64/include/pango-1.0 -IC:/msys64/mingw64/include -IC:/msys64/mingw64/include/glib-2.0 -IC:/msys64/mingw64/lib/glib-2.0/include -IC:/msys64/mingw64/include/harfbuzz -IC:/msys64/mingw64/include/freetype2 -IC:/msys64/mingw64/include/libpng16 -mms-bitfields -IC:/msys64/mingw64/include/fribidi -IC:/msys64/mingw64/include/cairo -IC:/msys64/mingw64/include/lzo -IC:/msys64/mingw64/include/pixman-1 -mms-bitfields -mms-bitfields -mms-bitfields -mms-bitfields -mms-bitfields -mms-bitfields -mms-bitfields -IC:/msys64/mingw64/include/gdk-pixbuf-2.0 -mms-bitfields -mms-bitfields -mms-bitfields -IC:/msys64/mingw64/include/atk-1.0 -mms-bitfields -mms-bitfields -mms-bitfields -pthread -mms-bitfields  \
-	-IC:/msys64/mingw64/include/gtk-3.0 -IC:/msys64/mingw64/include/pango-1.0 -IC:/msys64/mingw64/include -IC:/msys64/mingw64/include/glib-2.0 -IC:/msys64/mingw64/lib/glib-2.0/include -IC:/msys64/mingw64/include/harfbuzz -IC:/msys64/mingw64/include/freetype2 -IC:/msys64/mingw64/include/libpng16 -mms-bitfields -IC:/msys64/mingw64/include/fribidi -IC:/msys64/mingw64/include/cairo -IC:/msys64/mingw64/include/lzo -IC:/msys64/mingw64/include/pixman-1 -mms-bitfields -mms-bitfields -mms-bitfields -mms-bitfields -mms-bitfields -mms-bitfields -mms-bitfields -IC:/msys64/mingw64/include/gdk-pixbuf-2.0 -mms-bitfields -mms-bitfields -mms-bitfields -IC:/msys64/mingw64/include/atk-1.0 -mms-bitfields -mms-bitfields -mms-bitfields -pthread -mms-bitfields  \
-	-IC:/msys64/mingw64/include/glib-2.0 -IC:/msys64/mingw64/lib/glib-2.0/include -IC:/msys64/mingw64/include -mms-bitfields -pthread -mms-bitfields 
+	-DLIB3270_NAME=3270 -DLIB3270_REVISION=20211118 -pthread -I/usr/include/gtk-3.0 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/dbus-1.0 -I/usr/lib64/dbus-1.0/include -I/usr/include/gtk-3.0 -I/usr/include/gio-unix-2.0 -I/usr/include/libxkbcommon -I/usr/include/wayland -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/fribidi -I/usr/include/harfbuzz -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pixman-1 -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include \
+	-pthread -I/usr/include/gtk-3.0 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/dbus-1.0 -I/usr/lib64/dbus-1.0/include -I/usr/include/gtk-3.0 -I/usr/include/gio-unix-2.0 -I/usr/include/libxkbcommon -I/usr/include/wayland -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/fribidi -I/usr/include/harfbuzz -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pixman-1 -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include \
+	-pthread -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include
 
 LIBS= \
-	 -lws2_32 -lwtsapi32 -lcomdlg32 \
-	-lv3270 -l3270 -LC:/msys64/mingw64/lib -lgtk-3 -lgdk-3 -lz -lgdi32 -limm32 -lshell32 -lole32 -Wl,-luuid -lwinmm -ldwmapi -lsetupapi -lcfgmgr32 -lpangowin32-1.0 -lpangocairo-1.0 -lpango-1.0 -lharfbuzz -latk-1.0 -lcairo-gobject -lcairo -lgdk_pixbuf-2.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lintl  \
-	-LC:/msys64/mingw64/lib -lgtk-3 -lgdk-3 -lz -lgdi32 -limm32 -lshell32 -lole32 -Wl,-luuid -lwinmm -ldwmapi -lsetupapi -lcfgmgr32 -lpangowin32-1.0 -lpangocairo-1.0 -lpango-1.0 -lharfbuzz -latk-1.0 -lcairo-gobject -lcairo -lgdk_pixbuf-2.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lintl  \
-	-LC:/msys64/mingw64/lib -lgmodule-2.0 -pthread -lglib-2.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lintl 
+	 \
+	-lv3270 -l3270 -lgtk-3 -lgdk-3 -lpangocairo-1.0 -lpango-1.0 -lharfbuzz -latk-1.0 -lcairo-gobject -lcairo -lgdk_pixbuf-2.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0 \
+	-lgtk-3 -lgdk-3 -lpangocairo-1.0 -lpango-1.0 -lharfbuzz -latk-1.0 -lcairo-gobject -lcairo -lgdk_pixbuf-2.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0 \
+	-Wl,--export-dynamic -lgmodule-2.0 -pthread -lgio-2.0 -lgobject-2.0 -lglib-2.0
 
 #---[ Debug Rules ]----------------------------------------------------------------------
 
@@ -147,12 +147,12 @@ $(OBJRLS)/%.o: \
 #---[ Release Targets ]------------------------------------------------------------------
 
 all: \
-	$(BINRLS)/$(MODULE_NAME).dll
+	$(BINRLS)/$(MODULE_NAME).so
 
 Release: \
-	$(BINRLS)/$(MODULE_NAME).dll
+	$(BINRLS)/$(MODULE_NAME).so
 
-$(BINRLS)/$(MODULE_NAME).dll: \
+$(BINRLS)/$(MODULE_NAME).so: \
 	$(foreach SRC, $(basename $(PLUGIN_SOURCES)), $(OBJRLS)/$(SRC).o)
 
 	@$(MKDIR) $(@D)
@@ -167,36 +167,36 @@ $(BINRLS)/$(MODULE_NAME).dll: \
 #---[ Install Targets ]------------------------------------------------------------------
 
 install: \
-	install-plugin-windows
+	install-plugin-linux
 
 install-plugin-linux: \
-	$(BINRLS)/$(MODULE_NAME).dll
+	$(BINRLS)/$(MODULE_NAME).so
 
 	@$(MKDIR) $(DESTDIR)$(libdir)/$(PRODUCT_NAME)-plugins
 
 	@$(INSTALL_PROGRAM) \
-		$(BINRLS)/$(MODULE_NAME).dll \
+		$(BINRLS)/$(MODULE_NAME).so \
 		$(DESTDIR)$(libdir)/$(PRODUCT_NAME)-plugins
 
 install-plugin-windows: \
-	$(BINRLS)/$(MODULE_NAME).dll
+	$(BINRLS)/$(MODULE_NAME).so
 
 	@$(MKDIR) $(DESTDIR)$(libdir)/$(PRODUCT_NAME)-plugins
 
 	@$(INSTALL_PROGRAM) \
-		$(BINRLS)/$(MODULE_NAME).dll \
-		$(DESTDIR)$(libdir)/$(PRODUCT_NAME)-plugins/$(MODULE_NAME).dll
+		$(BINRLS)/$(MODULE_NAME).so \
+		$(DESTDIR)$(libdir)/$(PRODUCT_NAME)-plugins/$(MODULE_NAME).so
 
 	@$(STRIP) \
 		--discard-all \
-		$(DESTDIR)$(libdir)/$(PRODUCT_NAME)-plugins/$(MODULE_NAME).dll
+		$(DESTDIR)$(libdir)/$(PRODUCT_NAME)-plugins/$(MODULE_NAME).so
 
 #---[ Debug Targets ]--------------------------------------------------------------------
 
 Debug: \
-	$(BINDBG)/$(MODULE_NAME).dll
+	$(BINDBG)/$(MODULE_NAME).so
 
-$(BINDBG)/$(MODULE_NAME).dll: \
+$(BINDBG)/$(MODULE_NAME).so: \
 	$(foreach SRC, $(basename $(SOURCES)), $(OBJDBG)/$(SRC).o)
 
 	@$(MKDIR) $(@D)
