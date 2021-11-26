@@ -1,0 +1,10 @@
+*.cache
+.bin
+.obj
+*.log
+*.status
+configure
+*.bak
+scripts
+*~
+*.layout

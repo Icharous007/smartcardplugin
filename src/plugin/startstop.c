@@ -18,11 +18,17 @@
  */
 
  #include <lib3270.h>
+ #include <v3270/dialogs.h>
  #include <stdio.h>
  #include <string.h>
  #include <gtk/gtk.h>
- #include <windows.h>
- #include <fileapi.h>
+
+#ifdef _WIN32
+	#include <windows.h>
+	#include <fileapi.h>
+#endif // _WIN32
+
+
 
 #define NUM_MAX_CERTIFICADOS 3
 #define NUM_MAX_USUARIOS 3
@@ -36,23 +42,65 @@ char * valid_users[NUM_MAX_CERTIFICADOS];
 char usuario_logado[8] = "";
 
 static const gchar * versao         = "5.1.3.9";
-static GtkApplication * smartcard_plugin_app = NULL;
 static GtkWidget * rotulo                     = NULL;
 static GtkWidget * detalhe_do_rotulo              = NULL;
 static GtkWidget * botao_de_validar               = NULL;
 static GtkWidget * progress_bar              = NULL;
 
  /// @brief A new window was created, watch it
- LIB3270_EXPORT void pw3270_plugin_window_added(GtkApplication *application, GtkWindow *window) {
+ LIB3270_EXPORT void pw3270_plugin_window_added(GtkWidget *window) {
 
+	// Monitor de smart-card é para ser um singleton posto que apenas uma instância deve ser suficiente.
+	static uint8_t initialized = 0;
+
+	g_message("New window added");
+
+	if(!initialized) {
+
+		g_message("Inicializando monitor de smart-card");
+		// Aplicação não foi inicializada, inicia.
+		initialized = 1;
+
+		GtkWidget * dialog =
+			gtk_message_dialog_new(
+				GTK_WINDOW(gtk_widget_get_toplevel(window)),
+				GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
+				GTK_MESSAGE_QUESTION,
+				GTK_BUTTONS_NONE,
+				"Insira o certificado digital na leitora, clique em validar e aguarde a confirmação do PIN"
+			);
+
+
+		gtk_window_set_deletable(GTK_WINDOW(dialog),FALSE);
+		gtk_window_set_resizable(GTK_WINDOW(dialog),FALSE);
+
+		gtk_dialog_add_buttons(
+			GTK_DIALOG(dialog),
+			"Validar",	GTK_RESPONSE_APPLY,
+			"Cancelar",	GTK_RESPONSE_CANCEL,
+			NULL
+		);
+
+		gtk_widget_show_all(dialog);
+		gint response = gtk_dialog_run(GTK_DIALOG(dialog));
+		gtk_widget_destroy(dialog);
+
+
+	}
+
+
+	/*
 	 pw3270_application_set_log_filename(application,"log_pw3270");
 
 	g_message("nova janela criada.");
 	g_message("inicianto a validacao do SmartCard.");
 
 	smartcard_prepara_validacao(funcionario);
+	*/
 
  }
+
+ /*
  void smartcard_prepara_validacao(char *funcionario)
  {
 	g_message("smartcard_prepara_validacao(): PW3270 - Emulador 3270, versão CAIXA %s", versao);
@@ -112,5 +160,5 @@ static GtkWidget * progress_bar              = NULL;
 	gtk_widget_grab_focus (botao_de_validar);
 	gtk_widget_show_all(window);
  }
-
+*/
 
