@@ -85,6 +85,9 @@ static GtkWidget * progress_bar              = NULL;
 		gint response = gtk_dialog_run(GTK_DIALOG(dialog));
 		gtk_widget_destroy(dialog);
 
+		if(response == GTK_RESPONSE_CANCEL) {
+			g_application_quit(g_application_get_default());
+		}
 
 	}
 
