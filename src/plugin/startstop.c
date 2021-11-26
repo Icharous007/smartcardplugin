@@ -76,10 +76,12 @@ static GtkWidget * progress_bar              = NULL;
 
 		gtk_dialog_add_buttons(
 			GTK_DIALOG(dialog),
-			"Validar",	GTK_RESPONSE_APPLY,
 			"Cancelar",	GTK_RESPONSE_CANCEL,
+			"Validar",	GTK_RESPONSE_APPLY,
 			NULL
 		);
+
+		gtk_dialog_set_default_response(GTK_DIALOG(dialog),GTK_RESPONSE_APPLY);
 
 		gtk_widget_show_all(dialog);
 		gint response = gtk_dialog_run(GTK_DIALOG(dialog));
@@ -88,6 +90,11 @@ static GtkWidget * progress_bar              = NULL;
 		if(response == GTK_RESPONSE_CANCEL) {
 			g_application_quit(g_application_get_default());
 		}
+
+		//
+		// Como faz a validação?
+		//
+
 
 	}
 
