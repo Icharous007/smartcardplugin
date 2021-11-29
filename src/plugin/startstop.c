@@ -21,6 +21,7 @@
  #include <v3270/dialogs.h>
  #include <stdio.h>
  #include <string.h>
+ #include <stdint.h>
  #include <gtk/gtk.h>
 
 #ifdef _WIN32

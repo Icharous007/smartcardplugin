@@ -17,7 +17,7 @@
 #define HAVE_V3270 /**/
 
 /* Define as const if the declaration of iconv() needs const. */
-#define ICONV_CONST 
+#define ICONV_CONST const
 
 /* Name of package */
 #define PACKAGE "smartcardautentication"
