@@ -40,5 +40,8 @@
 /* Define to the version of this package. */
 #define PACKAGE_VERSION "1.0"
 
+/* Do we have a product name? */
+#define PRODUCT_NAME pw3270
+
 /* Version number of package */
 #define VERSION "1.0"

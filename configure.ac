@@ -135,6 +135,10 @@ PKG_CHECK_MODULES( [LIB3270], [lib3270], AC_DEFINE(HAVE_LIB3270,[],[Do we have l
 AC_SUBST(LIB3270_LIBS)
 AC_SUBST(LIB3270_CFLAGS)
 
+AC_ARG_WITH([product-name], [AS_HELP_STRING([--with-product-name], [Set product name])], [ app_cv_product="$withval" ],[ app_cv_product=`pkg-config --variable=product_name lib3270` ])
+AC_DEFINE_UNQUOTED(PRODUCT_NAME, $app_cv_product, [Do we have a product name?])
+AC_SUBST(PRODUCT_NAME,$app_cv_product)
+
 dnl ---------------------------------------------------------------------------
 dnl Check for LIBV3270
 dnl ---------------------------------------------------------------------------

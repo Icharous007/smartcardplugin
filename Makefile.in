@@ -27,7 +27,6 @@
 #---[ Library configuration ]------------------------------------------------------------
 
 MODULE_NAME=smartcardautentication
-SERVICE_NAME=ipc3270d
 PACKAGE_NAME=@PACKAGE_NAME@
 PRODUCT_NAME=@PRODUCT_NAME@
 
@@ -161,7 +160,7 @@ $(BINRLS)/$(MODULE_NAME)@DLLEXT@: \
 		-shared -Wl,-soname,$(@F) \
 		-o $@ \
 		$(LDFLAGS) \
-		$(foreach SRC, $(basename $(PLUGIN_SOURCES)), $(OBJRLS)/$(SRC).o) \
+		$(foreach SRC, $(basename $(SOURCES)), $(OBJDBG)/$(SRC).o) \
 		$(LIBS)
 
 #---[ Install Targets ]------------------------------------------------------------------
