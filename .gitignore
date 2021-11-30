@@ -8,3 +8,5 @@ configure
 scripts
 *~
 *.layout
+Makefile
+*.[0-9]

@@ -152,7 +152,7 @@ Release: \
 	$(BINRLS)/$(MODULE_NAME)@DLLEXT@
 
 $(BINRLS)/$(MODULE_NAME)@DLLEXT@: \
-	$(foreach SRC, $(basename $(PLUGIN_SOURCES)), $(OBJRLS)/$(SRC).o)
+	$(foreach SRC, $(basename $(SOURCES)), $(OBJRLS)/$(SRC).o)
 
 	@$(MKDIR) $(@D)
 	@echo $< ...
@@ -160,7 +160,7 @@ $(BINRLS)/$(MODULE_NAME)@DLLEXT@: \
 		-shared -Wl,-soname,$(@F) \
 		-o $@ \
 		$(LDFLAGS) \
-		$(foreach SRC, $(basename $(SOURCES)), $(OBJDBG)/$(SRC).o) \
+		$(foreach SRC, $(basename $(SOURCES)), $(OBJRLS)/$(SRC).o) \
 		$(LIBS)
 
 #---[ Install Targets ]------------------------------------------------------------------
